@@ -92,20 +92,8 @@ TypeScript
 🧑‍💻 Author
 Siddhesh Shirdhankar
 Frontend Engineer (1.5 YOE)
-Building scalable SaaS & microfrontends with React, TypeScript, and modern tooling.
-Follow me on Medium | Connect on LinkedIn
+Follow me on [Medium](https://medium.com/@siddhesh.shirdhankar18) | Connect on [LinkedIn](https://www.linkedin.com/in/siddhesh-shirdhankar-8024871a7/)
 
-⭐ Support
-If this helped you:
-
-Give this repo a ⭐
-
-Share it with your dev circle
-
-Drop a comment or PR if you have improvements!
-
-📜 License
-MIT License — free to use, modify, and share.
 
 💬 “Sometimes, it’s not about complex logic — it’s about knowing how the browser and libraries interact.”
 — Inspired by a question from one of my juniors ❤️
