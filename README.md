@@ -1,73 +1,111 @@
-# React + TypeScript + Vite
+# 🔢 React Hook Form Number Input Fix — with shadcn/ui + Tailwind CSS v4
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A minimal example demonstrating how to handle number inputs correctly in **React Hook Form** using **shadcn/ui** and **Tailwind v4** — ensuring numeric values aren’t submitted as strings.  
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Overview
 
-## React Compiler
+Even if your input type is `"number"`, browsers still submit its value as a **string**.  
+That can cause type issues, validation errors, or incorrect calculations down the line.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+This repo shows how to fix that cleanly using:
 
-## Expanding the ESLint configuration
+- 🪄 **React Hook Form**
+- 🎨 **shadcn/ui**
+- 💨 **Tailwind CSS v4**
+- ⚡ Type-safe handling with `valueAsNumber`
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🧩 The Problem
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+```tsx
+<input type="number" {...register("age")} />
+Looks fine, right?
+But this will actually submit:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+js
+Copy code
+{ age: "25" } // ❌ string, not number
+✅ The Fix (Controller / FormField Pattern)
+tsx
+Copy code
+<Field data-invalid={fieldState.invalid}>
+  <FieldLabel htmlFor="form-rhf-demo-mobile">
+    Mobile Number
+  </FieldLabel>
+  <Input
+    {...field}
+    onChange={(e) => field.onChange(e.target.valueAsNumber)} // ✅ converts to number
+    id="form-rhf-demo-mobile"
+    aria-invalid={fieldState.invalid}
+    placeholder="Enter your mobile number"
+    autoComplete="off"
+    type="number"
+  />
+  {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+</Field>
+Here, e.target.valueAsNumber ensures the value stays numeric.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+⚙️ Alternative (Using register Directly)
+If you’re not using a Controller or custom field component, you can let React Hook Form handle the conversion automatically:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+tsx
+Copy code
+<input
+  type="number"
+  {...register("age", { valueAsNumber: true })}
+/>
+🧠 Why This Matters
+Prevents numeric values from being sent as strings
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Keeps form data consistent and type-safe
+
+Works seamlessly with Zod schemas, APIs, and TypeScript models
+
+Avoids silent bugs in form validation logic
+
+🛠️ Setup
+bash
+Copy code
+# Clone this repo
+git clone https://github.com/yourusername/react-hook-form-number-example
+
+# Move into the directory
+cd react-hook-form-number-example
+
+# Install dependencies
+npm install
+
+# Run the project
+npm run dev
+🧱 Built With
+React Hook Form
+
+shadcn/ui
+
+Tailwind CSS v4
+
+TypeScript
+
+🧑‍💻 Author
+Siddhesh Shirdhankar
+Frontend Engineer (1.5 YOE)
+Building scalable SaaS & microfrontends with React, TypeScript, and modern tooling.
+Follow me on Medium | Connect on LinkedIn
+
+⭐ Support
+If this helped you:
+
+Give this repo a ⭐
+
+Share it with your dev circle
+
+Drop a comment or PR if you have improvements!
+
+📜 License
+MIT License — free to use, modify, and share.
+
+💬 “Sometimes, it’s not about complex logic — it’s about knowing how the browser and libraries interact.”
+— Inspired by a question from one of my juniors ❤️
